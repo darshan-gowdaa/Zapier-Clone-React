@@ -46,7 +46,7 @@ const App: React.FC = () => {
           sidebarCollapsed ? 'w-16' : 'w-64'
         } bg-white border-r border-gray-200 flex flex-col fixed left-0 top-0 h-screen z-30 transition-all duration-300 ease-in-out`}
       >
-        <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
+        <Sidebar collapsed={sidebarCollapsed} />
       </aside>
 
       {/* Main Content Area */}

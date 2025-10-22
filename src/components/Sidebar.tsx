@@ -3,10 +3,9 @@ import { Home, Globe, Zap, Table, Layout, MessageSquare, Settings, Bot, Grid, Cl
 
 interface SidebarProps {
   collapsed: boolean;
-  setCollapsed: (value: boolean) => void;
 }
 
-const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
+const Sidebar = ({ collapsed }: SidebarProps) => {
   const menuItems = [
     { icon: Home, label: 'Home' },
     { icon: Globe, label: 'Discover' },
