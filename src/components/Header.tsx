@@ -1,10 +1,13 @@
 import React from 'react';
+import { Layout } from 'lucide-react';
 
 const Header: React.FC = () => {
   return (
     <div className="flex justify-between items-center p-4 mx-12 mt-5">
       <div className="flex items-center">
-        <div className="bg-orange-600 w-8 h-8 mr-3"></div>
+        <div className="bg-orange-600 w-8 h-8 mr-3 rounded flex items-center justify-center">
+          <Layout className="w-5 h-5 text-white" />
+        </div>
         <h1 className="text-3xl font-bold text-gray-800">Interfaces</h1>
       </div>
       <button className="flex items-center px-4 py-2 text-gray-700 border border-gray-300 rounded hover:bg-gray-50">

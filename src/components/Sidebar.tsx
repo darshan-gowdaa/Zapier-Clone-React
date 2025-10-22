@@ -1,89 +1,80 @@
 // Sidebar.tsx
-import { useState } from 'react';
-import { Layout, Home, Globe, Zap, Table, MessageSquare, Cannabis, Bot, Grid, Clock, MoreHorizontal, CreditCard, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Home, Globe, Zap, Table, Layout, MessageSquare, Settings, Bot, Grid, Clock, MoreHorizontal, CreditCard } from 'lucide-react';
 
-const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false);
+interface SidebarProps {
+  collapsed: boolean;
+  setCollapsed: (value: boolean) => void;
+}
 
-  const toggleSidebar = () => {
-    setCollapsed(!collapsed);
-  };
-
+const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
   const menuItems = [
     { icon: Home, label: 'Home' },
     { icon: Globe, label: 'Discover' },
-    { icon: null, label: 'divider' },
+    { type: 'divider' as const },
     { icon: Zap, label: 'Zaps' },
     { icon: Table, label: 'Tables' },
     { icon: Layout, label: 'Interfaces', active: true },
-    { icon: MessageSquare, label: 'Chatbots', beta: true },
-    { icon: Cannabis, label: 'Canvas', beta: true },
-    { icon: Bot, label: 'Agents', beta: true },
-    { icon: null, label: 'divider' },
+    { icon: MessageSquare, label: 'Chatbots' },
+    { icon: Settings, label: 'Canvas' },
+    { icon: Bot, label: 'Agents' },
+    { type: 'divider' as const },
     { icon: Grid, label: 'Apps' },
     { icon: Clock, label: 'Zap History' },
     { icon: MoreHorizontal, label: 'More' },
-    { icon: null, label: 'divider' },
+    { type: 'divider' as const },
     { icon: CreditCard, label: 'Professional plan (Trial)' }
   ];
 
   return (
-    <div className={`${collapsed ? 'w-16' : 'w-64'} h-screen sticky top-0 bg-white border-r border-gray-200 flex flex-col transition-all duration-300 `}>
-      {/* Toggle button */}
-      <button 
-        className="absolute -right-3 top-20 bg-orange-100 rounded-full p-1 border border-gray-300 shadow-2xl z-10"
-        onClick={toggleSidebar}
-      >
-        {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
-      </button>
-
-      {/* Create button */}
-      <div className="p-4">
-        <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded-md transition-colors flex items-center justify-center">
-          {collapsed ? '+' : '+ Create'}
+    <>
+      {/* Create Button */}
+      <div className="p-4 pt-16">
+        <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-4 rounded flex items-center justify-center gap-2 transition-all duration-300">
+          <span className="text-xl leading-none">+</span>
+          {!collapsed && <span className="transition-opacity duration-300">Create</span>}
         </button>
       </div>
-      
-      {/* Menu items */}
-      <div className="mt-2 px-2 flex-1 overflow-y-auto">
+
+      {/* Menu Items */}
+      <nav className="flex-1 px-2 overflow-y-auto">
         {menuItems.map((item, index) => {
-          if (item.label === 'divider') {
-            return <div key={`divider-${index}`} className="my-2 border-b border-gray-200"></div>;
+          if (item.type === 'divider') {
+            return <div key={`divider-${index}`} className="border-t border-gray-200 my-2" />;
           }
-          
-          const Icon = item.icon;
-          
+
+          const Icon = item.icon!;
           return (
-            <div 
-              key={item.label} 
-              className={`flex items-center py-2 px-3 ${collapsed ? 'justify-center' : ''} text-gray-700 hover:bg-gray-100 rounded-md cursor-pointer transition-colors ${item.active ? 'bg-orange-50 text-orange-500' : ''}`}
+            <div
+              key={item.label}
+              className={`flex items-center gap-3 px-3 py-2 rounded cursor-pointer transition-all duration-300 ${
+                item.active ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'
+              }`}
             >
-              {Icon && <Icon className={`${collapsed ? 'w-5 h-5' : 'w-4 h-4 mr-2'}`} />}
+              <Icon size={20} className="flex-shrink-0" />
               {!collapsed && (
-                <div className="flex justify-between items-center w-full">
-                  <span className="text-sm">{item.label}</span>
-                  {item.beta && <span className="text-xs bg-gray-100 px-1 rounded">Beta</span>}
-                </div>
+                <span className="text-sm font-medium whitespace-nowrap overflow-hidden transition-all duration-300">
+                  {item.label}
+                </span>
               )}
             </div>
           );
         })}
-      </div>
+      </nav>
 
-      {/* Tasks and Zaps counter */}
-      {!collapsed && (
-        <div className="mt-auto p-4 text-sm text-gray-600">
-          <div className="flex justify-between">
-            <span>Tasks</span>
-            <span>0 / 1,000</span>
-          </div>
-          <div className="flex justify-between mt-1">
-            <span>Zaps</span>
-            <span>Unlimited</span>
-          </div>
+      {/* Footer Stats */}
+      <div className={`border-t border-gray-200 text-xs text-gray-600 transition-all duration-300 overflow-hidden ${
+        collapsed ? 'h-0 p-0' : 'h-auto p-4'
+      }`}>
+        <div className="flex justify-between mb-1">
+          <span>Tasks</span>
+          <span>0 / 1,000</span>
         </div>
-      )}
-    </div>
+        <div className="flex justify-between">
+          <span>Zaps</span>
+          <span>Unlimited</span>
+        </div>
+      </div>
+    </>
   );
 };
 
